@@ -14,9 +14,9 @@ for obj in bpy.data.objects:
 
 
 
-stl_dir = r"D:\DrivAer\DrivAer_STLs\Myselection\Notchback\body"
-export_dir = r"D:\stl_N"
-input_params = np.loadtxt(r'D:\AutoRANS\step1.1 ffd\lhs_parameters_Notch_v3.csv', delimiter=',', skiprows=1)
+stl_dir = r"D:\DrivAer\DrivAer_STLs\body"
+export_dir = r"D:\DrivAer\stl_N"
+input_params = np.loadtxt(r'lhs_parameters_Notch_v3.csv', delimiter=',', skiprows=1)
 
 os.makedirs(stl_dir, exist_ok=True)
 os.makedirs(export_dir, exist_ok=True)

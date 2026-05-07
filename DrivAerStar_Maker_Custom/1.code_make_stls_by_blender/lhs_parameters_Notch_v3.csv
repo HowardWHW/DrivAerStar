@@ -1,0 +1,5 @@
+car_size,car_width,car_len,ramp_angle,front_bumper_length,wind_screen_x,wind_screen_z,side_mirrors_x,side_mirrors_z,rear_window_x,rear_window_z,trunklid_angle,trunklid_x,trunklid_z,diffusor_angle,car_green_house_angle,car_front_hood_angle,car_air_intake_angle,tires_diameter,tires_width
+1,-0.1,-0.1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,-0.1,0.1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,0.1,-0.1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,0.1,0.1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
