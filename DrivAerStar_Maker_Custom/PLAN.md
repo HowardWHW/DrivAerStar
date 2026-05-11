@@ -59,20 +59,20 @@ No Star-CCM+, Slurm jobs, Blender batch jobs, or bulk generation should be run a
    - Default `yaw_deg = 0.0` for non-yaw cases.
    - For first yaw validation, use a tiny set such as `0`, `5`, and `-5` degrees with otherwise neutral geometry.
 
-2. Add a post-wheel-alignment STL rotation step.
-   - Create a separate script in `2.code_Wheel_Alignment/` or adjacent custom utility that runs after wheel alignment and before Java macro generation.
-   - Rotate every vehicle STL in each case folder together:
+2. Add a post-wheel-alignment yaw case preparation step.
+   - Create `2.code_Wheel_Alignment/yaw/prepare_yaw_cases_after_alignment.py` to run after wheel alignment and before Java macro generation.
+   - Copy every aligned vehicle STL into each nested yaw case folder:
      - `part_01_Body.stl`
      - `part_02_UB_Smooth.stl`
      - `part_03_Notchback.stl`
      - `part_05_Wheels_Front_Closed.stl`
      - `part_06_Wheels_Rear_Closed.stl`
      - `part_07_Mirror.stl`
+   - Write `yaw_metadata.json` containing yaw angle, rotation reference, rotated front/rear wheel origins, and rotated wheel axis.
+   - Apply the actual vehicle yaw inside `KwWakeRefine0521_yaw.java` immediately after `execute_input(dir)` and before domain creation.
    - Rotate about global Z using a single documented vehicle reference point. Default reference: the midpoint of the case’s combined vehicle STL bounding box in X/Y, with Z unchanged.
    - Keep the rectangular domain unrotated in Star-CCM+.
-   - Recompute or preserve `floor.txt` after rotation:
-     - because yaw about Z should not change Z values, preserve `floor.txt`
-     - still validate that min wheel Z is unchanged within tolerance
+   - Preserve `floor.txt`; yaw about Z should not change Z values.
 
 3. Carry yaw data into Java macro generation.
    - Add template placeholders for:
@@ -81,8 +81,8 @@ No Star-CCM+, Slurm jobs, Blender batch jobs, or bulk generation should be run a
      - rotated front wheel origin
      - rotated rear wheel origin
      - rotated wheel axis vector
-   - Compute these values in `make.py` from the same yaw angle and reference point used to rotate STLs.
-   - Generate per-case macros with the yaw-specific wheel metadata.
+   - Compute these values during yaw case preparation from the same yaw angle and reference point used by the Java yaw rotation.
+   - Generate per-case `KwWakeRefine0521_yaw.java` macros with the yaw-specific wheel metadata.
 
 4. Update wheel rotating-wall boundary conditions in `KwWakeRefine0521`.
    - Keep inlet, outlet, moving ground, and domain boxes aligned with global flow axes.
