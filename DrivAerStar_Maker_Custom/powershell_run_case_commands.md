@@ -7,9 +7,9 @@ $NP = 8
 
 Set-Location $CASE
 
-& $STARCCM -np $NP -power -batch "$CASE\stl_2_dbs.java" 2>&1 | Tee-Object -FilePath "$CASE\2dbs.log"
+& $STARCCM -locale zh -np $NP -power -batch "$CASE\stl_2_dbs.java" 2>&1 | Tee-Object -FilePath "$CASE\2dbs.log"
 & $STARCCM -np $NP -power -batch "$CASE\baomian.java" 2>&1 | Tee-Object -FilePath "$CASE\baomian.log"
-& $STARCCM -np $NP -power -batch "$CASE\KwWakeRefine0521.java" 2>&1 | Tee-Object -FilePath "$CASE\KwWakeRefine0521.log"
+& $STARCCM -locale zh -np $NP -power -batch "$CASE\KwWakeRefine0521.java" 2>&1 | Tee-Object -FilePath "$CASE\KwWakeRefine0521.log"
 ```
 
 ## Yaw:

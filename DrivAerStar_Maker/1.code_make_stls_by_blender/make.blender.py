@@ -14,11 +14,15 @@ for obj in bpy.data.objects:
 
 
 
-stl_dir = r"D:\DrivAer\DrivAer_STLs\body"
-export_dir = r"D:\DrivAer\stl_N"
-input_params = np.loadtxt(r'lhs_parameters_Notch_v3.csv', delimiter=',', skiprows=1)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+stl_dir = r"D:\DrivAer\DrivAerStar_STLs\Notchback\body"
+export_dir = r"F:\DrivAer\original_paper\stl_N"
+input_params = np.atleast_2d(
+    np.loadtxt(os.path.join(script_dir, "lhs_parameters_example", "lhs_parameters_Notch_v3.csv"), delimiter=",", skiprows=1)
+)
 
-os.makedirs(stl_dir, exist_ok=True)
+if not os.path.isdir(stl_dir):
+    raise FileNotFoundError(f"STL input folder not found: {stl_dir}")
 os.makedirs(export_dir, exist_ok=True)
 
 imported_objects = []
@@ -27,7 +31,7 @@ for file in os.listdir(stl_dir):
     if file.lower().endswith('.stl'):
         file_path = os.path.join(stl_dir, file)
         
-        bpy.ops.import_mesh.stl(
+        bpy.ops.wm.stl_import(
             filepath=file_path,
             global_scale=1e-3,  
             use_scene_unit=True
@@ -587,11 +591,11 @@ def FFD(params,names = ""):
 
             export_path = os.path.join(dirr, f"{obj_name}.stl")
             
-            bpy.ops.export_mesh.stl(
+            bpy.ops.wm.stl_export(
                 filepath=export_path,
-                use_selection=True,
+                export_selected_objects=True,
                 global_scale=1000,  
-                use_mesh_modifiers=True
+                apply_modifiers=True
             )
             print(f"已导出: {export_path}")
 
@@ -605,8 +609,9 @@ def write_FFD(i, params):
 
 import sys
 
-ids = int(sys.argv[4])
-ide = int(sys.argv[5])
+ids = int(sys.argv[4]) if len(sys.argv) > 4 else 0
+ide = int(sys.argv[5]) if len(sys.argv) > 5 else len(input_params)
+ide = min(ide, len(input_params))
 i = ids
 for params in input_params[ids:ide]:
     write_FFD(i, params)
